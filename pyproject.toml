@@ -1,0 +1,146 @@
+[project]
+name = "kodo"
+version = "0.1.0"
+description = "Kōdo - A code-aware AI assistant that understands codebases as interconnected systems"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [
+    { name = "Med Amine Ben Aoun" }
+]
+keywords = ["code-analysis", "ai", "graph-database", "embeddings", "ast"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    # API Framework
+    "fastapi>=0.109.0",
+    "uvicorn[standard]>=0.27.0",
+    "pydantic>=2.5.0",
+    "pydantic-settings>=2.1.0",
+
+    # Database Drivers
+    "neo4j>=5.15.0",
+    "qdrant-client>=1.7.0",
+    "asyncpg>=0.29.0",
+    "sqlalchemy>=2.0.0",
+
+    # Parsing
+    "tree-sitter>=0.21.0",
+    "tree-sitter-python>=0.21.0",
+    "tree-sitter-javascript>=0.21.0",
+    "tree-sitter-typescript>=0.21.0",
+
+    # Git Operations
+    "gitpython>=3.1.40",
+
+    # AI/ML
+    "anthropic>=0.18.0",
+    "openai>=1.10.0",
+    "voyageai>=0.2.0",
+    "tiktoken>=0.5.0",
+
+    # Utilities
+    "httpx>=0.26.0",
+    "python-dotenv>=1.0.0",
+    "structlog>=24.1.0",
+    "rich>=13.7.0",
+    "typer>=0.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "httpx>=0.26.0",
+
+    # Code Quality
+    "ruff>=0.1.14",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+
+    # Type Stubs
+    "types-requests>=2.31.0",
+]
+
+[project.scripts]
+kodo = "core.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/yourusername/kodo"
+Documentation = "https://github.com/yourusername/kodo#readme"
+Repository = "https://github.com/yourusername/kodo"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["core", "api"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # Pyflakes
+    "I",      # isort
+    "B",      # flake8-bugbear
+    "C4",     # flake8-comprehensions
+    "UP",     # pyupgrade
+    "ARG",    # flake8-unused-arguments
+    "SIM",    # flake8-simplify
+]
+ignore = [
+    "E501",   # line too long (handled by formatter)
+    "B008",   # do not perform function calls in argument defaults
+    "B904",   # raise without from inside except
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["core", "api"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = [
+    "neo4j.*",
+    "tree_sitter.*",
+    "voyageai.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-v --cov=core --cov=api --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["core", "api"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+]
