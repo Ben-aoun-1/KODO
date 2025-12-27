@@ -1213,3 +1213,97 @@ class TestAPIIntegration:
             params={"name": "Data"},
         )
         assert response.status_code == 200
+
+
+# =============================================================================
+# Ask Endpoint Tests
+# =============================================================================
+
+
+class TestAskEndpointModels:
+    """Tests for Ask endpoint request/response models."""
+
+    def test_ask_request_creation(self):
+        """Test creating an AskRequest."""
+        from api.routers.ask import AskRequest
+
+        request = AskRequest(question="How does login work?")
+        assert request.question == "How does login work?"
+        assert request.include_sources is True
+        assert request.stream is False
+
+    def test_ask_request_with_options(self):
+        """Test AskRequest with all options."""
+        from api.routers.ask import AskRequest
+
+        request = AskRequest(
+            question="Explain this code",
+            file_context="auth/login.py",
+            include_sources=False,
+            max_tokens=2048,
+        )
+        assert request.file_context == "auth/login.py"
+        assert request.max_tokens == 2048
+
+    def test_ask_response_creation(self):
+        """Test creating an AskResponse."""
+        from api.routers.ask import AskResponse
+
+        response = AskResponse(
+            request_id="test-123",
+            query_type="explain",
+            answer="Test answer",
+        )
+        assert response.request_id == "test-123"
+        assert response.query_type == "explain"
+
+    def test_source_info_creation(self):
+        """Test creating SourceInfo."""
+        from api.routers.ask import SourceInfo
+
+        source = SourceInfo(
+            file_path="test.py",
+            start_line=10,
+            end_line=20,
+        )
+        assert source.file_path == "test.py"
+        assert source.relevance == 1.0
+
+    def test_search_request_creation(self):
+        """Test creating a SearchRequest."""
+        from api.routers.ask import SearchRequest
+
+        request = SearchRequest(query="find database functions")
+        assert request.query == "find database functions"
+        assert request.limit == 10
+
+    def test_search_response_creation(self):
+        """Test creating a SearchResponse."""
+        from api.routers.ask import SearchResponse
+
+        response = SearchResponse(
+            query="test",
+            results=[],
+            total=0,
+        )
+        assert response.total == 0
+
+
+class TestQueryEngineSettings:
+    """Tests for query engine configuration settings."""
+
+    def test_max_context_tokens_setting(self):
+        """Test max_context_tokens setting."""
+        settings = Settings(max_context_tokens=4000)
+        assert settings.max_context_tokens == 4000
+
+    def test_max_response_tokens_setting(self):
+        """Test max_response_tokens setting."""
+        settings = Settings(max_response_tokens=2048)
+        assert settings.max_response_tokens == 2048
+
+    def test_default_token_settings(self):
+        """Test default token settings."""
+        settings = Settings()
+        assert settings.max_context_tokens == 8000
+        assert settings.max_response_tokens == 4096

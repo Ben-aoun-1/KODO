@@ -111,6 +111,16 @@ class Settings(BaseSettings):
     # API settings
     api_prefix: str = Field(default="/api/v1", description="API route prefix")
 
+    # Query engine settings
+    max_context_tokens: int = Field(
+        default=8000,
+        description="Maximum tokens for code context",
+    )
+    max_response_tokens: int = Field(
+        default=4096,
+        description="Maximum tokens for LLM response",
+    )
+
 
 @lru_cache
 def get_settings() -> Settings:

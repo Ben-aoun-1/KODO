@@ -14,6 +14,7 @@ from pathlib import Path
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+from pydantic import ValidationError
 
 from core.ingestion.models import (
     FileChange,
@@ -78,7 +79,7 @@ class TestRepositoryInfo:
 
     def test_repository_info_forbids_extra_fields(self):
         """Test that extra fields are not allowed."""
-        with pytest.raises(TypeError):  # Pydantic ValidationError
+        with pytest.raises(ValidationError):
             RepositoryInfo(
                 id="abc123",
                 name="test-repo",
@@ -108,7 +109,7 @@ class TestFileInfo:
 
     def test_file_info_size_must_be_non_negative(self):
         """Test that size must be >= 0."""
-        with pytest.raises(TypeError):  # Pydantic ValidationError
+        with pytest.raises(ValidationError):
             FileInfo(
                 path="test.py",
                 size=-1,

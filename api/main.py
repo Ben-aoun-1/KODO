@@ -15,7 +15,7 @@ from fastapi.responses import JSONResponse
 from .config import get_settings
 from .dependencies import init_dependencies, shutdown_dependencies
 from .middleware import RequestLoggingMiddleware, TimingMiddleware
-from .routers import health_router, query_router, repos_router
+from .routers import ask_router, health_router, query_router, repos_router
 
 logger = structlog.get_logger(__name__)
 
@@ -98,6 +98,7 @@ def create_app() -> FastAPI:
     # API routes are prefixed with /api/v1
     app.include_router(repos_router, prefix=settings.api_prefix)
     app.include_router(query_router, prefix=settings.api_prefix)
+    app.include_router(ask_router, prefix=settings.api_prefix)
 
     # Root endpoint
     @app.get("/", include_in_schema=False)
