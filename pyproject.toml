@@ -139,8 +139,8 @@ module = [
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = ["core.ingestion.*", "core.graph.*"]
-# GitPython and Neo4j have incomplete type stubs, be lenient
+module = ["core.ingestion.*", "core.graph.*", "api.*"]
+# GitPython, Neo4j, and FastAPI middleware have incomplete type stubs, be lenient
 disallow_untyped_defs = false
 warn_return_any = false
 

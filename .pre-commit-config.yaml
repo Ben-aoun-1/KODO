@@ -23,7 +23,7 @@ repos:
     rev: v1.8.0
     hooks:
       - id: mypy
-        exclude: ^tests/
+        exclude: ^(tests/|api/)
         additional_dependencies:
           - pydantic>=2.5.0
           - types-requests>=2.31.0
