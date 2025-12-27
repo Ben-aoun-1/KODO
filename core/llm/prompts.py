@@ -263,7 +263,7 @@ GENERATE_TEMPLATE = PromptTemplate(
 REVIEW_TEMPLATE = PromptTemplate(
     query_type=QueryType.REVIEW,
     system_prompt=SYSTEM_PROMPT_REVIEW,
-    user_template=USER_TEMPLATE_WITH_CODE,
+    user_template=USER_TEMPLATE_WITH_CONTEXT,
     requires_context=True,
     max_context_tokens=8000,
 )
@@ -271,7 +271,7 @@ REVIEW_TEMPLATE = PromptTemplate(
 REFACTOR_TEMPLATE = PromptTemplate(
     query_type=QueryType.REFACTOR,
     system_prompt=SYSTEM_PROMPT_REFACTOR,
-    user_template=USER_TEMPLATE_WITH_CODE,
+    user_template=USER_TEMPLATE_WITH_CONTEXT,
     requires_context=True,
     max_context_tokens=8000,
 )
@@ -287,7 +287,7 @@ DEBUG_TEMPLATE = PromptTemplate(
 DOCUMENT_TEMPLATE = PromptTemplate(
     query_type=QueryType.DOCUMENT,
     system_prompt=SYSTEM_PROMPT_DOCUMENT,
-    user_template=USER_TEMPLATE_WITH_CODE,
+    user_template=USER_TEMPLATE_WITH_CONTEXT,
     requires_context=True,
     max_context_tokens=6000,
 )
@@ -295,7 +295,7 @@ DOCUMENT_TEMPLATE = PromptTemplate(
 TEST_TEMPLATE = PromptTemplate(
     query_type=QueryType.TEST,
     system_prompt=SYSTEM_PROMPT_TEST,
-    user_template=USER_TEMPLATE_WITH_CODE,
+    user_template=USER_TEMPLATE_WITH_CONTEXT,
     requires_context=True,
     max_context_tokens=8000,
 )

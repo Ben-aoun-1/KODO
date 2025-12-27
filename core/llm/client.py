@@ -125,6 +125,27 @@ class LLMClient(ABC):
         """Close the client and release resources."""
         pass
 
+    @abstractmethod
+    async def query(
+        self,
+        question: str,
+        context: "CodeContext | None" = None,
+        query_type: "QueryType | None" = None,
+        stream: bool = False,
+    ) -> "LLMResponse | AsyncIterator[str]":
+        """Query with code context.
+
+        Args:
+            question: The user's question.
+            context: Code context to include.
+            query_type: Type of query (auto-detected if not provided).
+            stream: Whether to stream the response.
+
+        Returns:
+            LLM response or async iterator for streaming.
+        """
+        ...
+
 
 class ClaudeClient(LLMClient):
     """Async client for Claude API.
