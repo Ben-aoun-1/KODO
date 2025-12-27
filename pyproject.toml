@@ -103,9 +103,13 @@ select = [
 ]
 ignore = [
     "E501",   # line too long (handled by formatter)
+    "E402",   # module level import not at top (we use logger setup before imports)
     "B008",   # do not perform function calls in argument defaults
     "B904",   # raise without from inside except
 ]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["F401"]  # unused imports ok in tests (used for availability checks)
 
 [tool.ruff.lint.isort]
 known-first-party = ["core", "api"]
@@ -124,9 +128,18 @@ plugins = ["pydantic.mypy"]
 module = [
     "neo4j.*",
     "tree_sitter.*",
+    "tree_sitter_python.*",
+    "tree_sitter_javascript.*",
+    "tree_sitter_typescript.*",
     "voyageai.*",
 ]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*", "conftest"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = false
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
