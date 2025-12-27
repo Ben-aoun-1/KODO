@@ -488,7 +488,7 @@ class TreeSitterParser(BaseParser):
         node_text = node_text.replace("\n", "\\n")
 
         result = (
-            f"{indent}{node.type} [{node.start_point[0]+1}:{node.start_point[1]}]"
+            f"{indent}{node.type} [{node.start_point[0] + 1}:{node.start_point[1]}]"
             f" = {repr(node_text)}\n"
         )
 

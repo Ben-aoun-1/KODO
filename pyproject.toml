@@ -132,8 +132,15 @@ module = [
     "tree_sitter_javascript.*",
     "tree_sitter_typescript.*",
     "voyageai.*",
+    "git.*",
 ]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["core.ingestion.*"]
+# GitPython has incomplete type stubs, be lenient
+disallow_untyped_defs = false
+warn_return_any = false
 
 [[tool.mypy.overrides]]
 module = ["tests.*", "conftest"]
