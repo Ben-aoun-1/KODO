@@ -106,6 +106,8 @@ ignore = [
     "E402",   # module level import not at top (we use logger setup before imports)
     "B008",   # do not perform function calls in argument defaults
     "B904",   # raise without from inside except
+    "ARG001", # unused function argument (common in interfaces/callbacks)
+    "ARG002", # unused method argument (common in test fixtures)
 ]
 
 [tool.ruff.lint.per-file-ignores]
@@ -137,8 +139,8 @@ module = [
 ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
-module = ["core.ingestion.*"]
-# GitPython has incomplete type stubs, be lenient
+module = ["core.ingestion.*", "core.graph.*"]
+# GitPython and Neo4j have incomplete type stubs, be lenient
 disallow_untyped_defs = false
 warn_return_any = false
 
