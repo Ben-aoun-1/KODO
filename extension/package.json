@@ -1,0 +1,197 @@
+{
+  "name": "kodo",
+  "displayName": "Kodo",
+  "description": "Code-aware AI assistant that understands your codebase",
+  "version": "0.1.0",
+  "publisher": "kodo",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "ai",
+    "code assistant",
+    "code analysis",
+    "documentation",
+    "code understanding"
+  ],
+  "activationEvents": [
+    "onLanguage:python",
+    "onLanguage:javascript",
+    "onLanguage:typescript",
+    "onLanguage:go",
+    "onLanguage:rust"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "kodo.askQuestion",
+        "title": "Kodo: Ask a Question About Code",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "kodo.explainSelection",
+        "title": "Kodo: Explain Selected Code"
+      },
+      {
+        "command": "kodo.findReferences",
+        "title": "Kodo: Find All References"
+      },
+      {
+        "command": "kodo.analyzeImpact",
+        "title": "Kodo: Analyze Impact of Changes"
+      },
+      {
+        "command": "kodo.showCallGraph",
+        "title": "Kodo: Show Call Graph"
+      },
+      {
+        "command": "kodo.indexRepository",
+        "title": "Kodo: Index Current Repository"
+      },
+      {
+        "command": "kodo.refreshIndex",
+        "title": "Kodo: Refresh Repository Index"
+      },
+      {
+        "command": "kodo.showPanel",
+        "title": "Kodo: Show Panel",
+        "icon": "$(book)"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "kodo.explainSelection",
+          "when": "editorHasSelection",
+          "group": "kodo@1"
+        },
+        {
+          "command": "kodo.findReferences",
+          "when": "editorTextFocus",
+          "group": "kodo@2"
+        },
+        {
+          "command": "kodo.analyzeImpact",
+          "when": "editorTextFocus",
+          "group": "kodo@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "kodo.askQuestion",
+          "when": "workspaceFolderCount > 0"
+        },
+        {
+          "command": "kodo.indexRepository",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "kodo-explorer",
+          "title": "Kodo",
+          "icon": "$(book)"
+        }
+      ]
+    },
+    "views": {
+      "kodo-explorer": [
+        {
+          "type": "webview",
+          "id": "kodo.chatPanel",
+          "name": "Chat"
+        },
+        {
+          "id": "kodo.repositoryStatus",
+          "name": "Repository Status"
+        },
+        {
+          "id": "kodo.recentQueries",
+          "name": "Recent Queries"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Kodo",
+      "properties": {
+        "kodo.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:8000",
+          "description": "URL of the Kodo API server"
+        },
+        "kodo.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "API key for authentication (optional)"
+        },
+        "kodo.enableHover": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable hover information for functions and classes"
+        },
+        "kodo.enableCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable code lens for function references and metrics"
+        },
+        "kodo.autoIndex": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically index repository on workspace open"
+        },
+        "kodo.maxContextLines": {
+          "type": "number",
+          "default": 50,
+          "description": "Maximum lines of context to send with queries"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "kodo.askQuestion",
+        "key": "ctrl+shift+k",
+        "mac": "cmd+shift+k",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "kodo.explainSelection",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "editorHasSelection"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vscode/test-electron": "^2.3.8",
+    "eslint": "^8.54.0",
+    "glob": "^10.3.10",
+    "mocha": "^10.2.0",
+    "typescript": "^5.3.2",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.2"
+  }
+}
