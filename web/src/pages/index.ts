@@ -1,0 +1,6 @@
+export { Dashboard } from './Dashboard'
+export { Repositories } from './Repositories'
+export { Explorer } from './Explorer'
+export { Chat } from './Chat'
+export { Graph } from './Graph'
+export { Analytics } from './Analytics'
